@@ -1,42 +1,30 @@
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 #include <GL/gl.h>
 #include <GL/glut.h>
 
-//callback functions
-void on_display();
-void on_keyboard(unsigned char c, int x, int y);
-void mouse_function(int button, int state, int x, int y);
-void on_reshape(int width, int height);
-
-void init(int argc, char** argv);
-
-void draw_field(float z);
-void draw_left_field();
-void draw_right_field();
-
-void draw_debug_coords();
-
+#include "display.hpp"
+#include "ship.hpp"
 
 //global variables
 bool animation = true;
 int width, height;
+int size_to_draw = 3;
+bool orientation;//orientation of next ship(vertical or horizontal)
 
-//macros
-#define pi 3.141592653589793
-#define eps 0.0001
+int draw_at_x, draw_at_y;//cell on which ship will be placed
+ship test = ship(size_to_draw, 0, 0, orientation);
+std::vector<ship> ships;//ships to draw
 
-// #define DEBUG -1 //macro for debuging,TODO will be deleted at the end
-
-
-
-static float r=12;
+// static float r=12;
 
 int main(int argc, char** argv){
 
     //GLUT init
 	init(argc, argv);
+	orientation = VERT;
 
     glutMainLoop();
 
@@ -60,6 +48,7 @@ void init(int argc, char** argv){
     glutReshapeFunc(on_reshape);
     glutDisplayFunc(on_display);
 	glutMouseFunc(mouse_function);
+	glutPassiveMotionFunc(passive_motion);
 
 	//OpenGL init
 	glLoadIdentity();
@@ -70,43 +59,17 @@ void init(int argc, char** argv){
 
 }
 
-//helper function 
+//helper functions
 bool inside_field(float x, float y){
 	return 	!(x < -10.5 || x > 10.5 ||y < 0 || y > 10	|| abs(x) < 0.5);
 }
 
-//mouse function trigerred on CLICK
-void mouse_function(int button, int state, int x, int y){
-
-	//world coords
-	float x_world = x*((11+11)/(float)width) - 11;
-	float y_world = 11 - y*((11+1)/(float)height);
-
-	if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		if(!inside_field(x_world, y_world)){
-			std::cout << "Out of bounds!!" << std::endl;
-		}
-		if(x_world < 0){ //left field
-			float x_world_tmp = x_world + 0.5;
-
-			int hit_cell_x = x_world_tmp;
-			int hit_cell_y = y_world;
-			
-			std::cout << hit_cell_x << " " << hit_cell_y << " " <<std::endl;
-		}
-		else { //right_field
-			float x_world_tmp = x_world - 0.5;
-			
-			int hit_cell_x = x_world_tmp;
-			int hit_cell_y = y_world;
-			
-			std::cout << hit_cell_x << " " << hit_cell_y << " " <<std::endl;
-		
-		}
-		std::cout << x_world << " " << y_world << " " <<std::endl;
+void draw_ships(){
+	for(auto &ship:ships){
+		ship.draw();
 	}
-
 }
+
 
 void on_display(){
 	
@@ -134,6 +97,7 @@ void on_display(){
 			  0,0,0,
 			  0,1,0);
 		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
 	}
 	
 	else{
@@ -154,6 +118,12 @@ void on_display(){
 	//drawing right field
 	draw_right_field();
 
+	if(draw_at_x != -100 || draw_at_y != -100){
+		test.draw_at(draw_at_x, draw_at_y);//draw ship that is going to be placed
+	}
+
+	draw_ships();//draw placed ships
+
 
 	glutSwapBuffers();
 }
@@ -166,7 +136,7 @@ void draw_left_field(){
 }
 
 void draw_field(float x){
-
+	
 	glPushMatrix();
 	
 		glTranslatef(x,0,0);
@@ -226,6 +196,11 @@ void on_keyboard(unsigned char c, int x, int y){
 		case 't'://TODO delete this, this should be done automatically when needed
 			animation = !animation;
 			glutPostRedisplay();
+			break;
+		case 'r'://rotate ship
+			orientation = !orientation;
+			glutPostRedisplay();
+			break;
 		}
 	return;
 }
@@ -241,4 +216,81 @@ void on_reshape(int w, int h){
 	gluPerspective(60, (float)width/height, 1, 40);
 
 	glMatrixMode(GL_MODELVIEW);
+}
+void passive_motion(int x, int y){
+	//world coords
+	float x_world = x*((11+11)/(float)width) - 11;
+	float y_world = 11 - y*((11+1)/(float)height);
+
+	if(!inside_field(x_world, y_world)){
+		// std::cout << "Out of bounds!!" << std::endl;
+		// set to -100 so that ship would not be displayed
+		draw_at_x = -100;
+		draw_at_y = -100;
+	}
+	else{
+		if(x_world < 0){ //left field
+			float x_world_tmp = x_world + 0.5;//because filed is moved 0.5 to the left
+
+			int hit_cell_x = x_world_tmp;
+			int hit_cell_y = y_world;
+
+
+			draw_at_x = hit_cell_x-1;
+			draw_at_y = hit_cell_y+1;
+
+			glutPostRedisplay();
+
+		}
+		else { //right_field
+			float x_world_tmp = x_world - 0.5;//because filed is moved 0.5 to the right
+			
+			int hit_cell_x = x_world_tmp;
+			int hit_cell_y = y_world;
+			
+			draw_at_x = hit_cell_x+1;
+			draw_at_y = hit_cell_y+1;
+
+			glutPostRedisplay();
+		
+		}
+	}
+	//std::cout << x_world << " " << y_world << " " <<std::endl;
+}
+
+//mouse function trigerred on CLICK, places ship
+void mouse_function(int button, int state, int x, int y){
+
+	//world coords
+	float x_world = x*((11+11)/(float)width) - 11;
+	float y_world = 11 - y*((11+1)/(float)height);
+
+	if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+		if(!inside_field(x_world, y_world)){
+			std::cout << "Out of bounds!!" << std::endl;
+		}
+		else{
+			if(x_world < 0){ //left field
+				float x_world_tmp = x_world + 0.5;
+
+				int hit_cell_x = x_world_tmp;
+				int hit_cell_y = y_world;
+				
+				std::cout << hit_cell_x << " " << hit_cell_y << " " <<std::endl;
+			}
+			else { //right_field
+				float x_world_tmp = x_world - 0.5;
+				
+				int hit_cell_x = x_world_tmp;
+				int hit_cell_y = y_world;
+				
+				std::cout << hit_cell_x << " " << hit_cell_y << " " <<std::endl;
+			
+			}
+			ships.push_back(ship(size_to_draw, draw_at_x, draw_at_y, orientation));//add ship to the vecotr of ships
+			glutPostRedisplay();
+		}
+		std::cout << x_world << " " << y_world << " " <<std::endl;
+	}
+
 }
