@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -Wextra -lm -g
+override CFLAGS += -Wall -Wextra -lm -g
 GLFLAGS = -lGL -lGLU -lglut
 TARGET = ships
 

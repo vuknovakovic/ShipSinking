@@ -9,7 +9,7 @@
 
 extern bool orientation;
 
-ship::ship(int size, int pos_x, int pos_y, bool orientation):
+ship::ship(int size, float pos_x, float pos_y, bool orientation):
 	size{size}, num_of_hit_fields{0}, alive{true}, pos_x{pos_x}, pos_y{pos_y}, orientation{orientation}
 {}
 
@@ -43,13 +43,14 @@ void ship::draw(){
 		trans_y = this->pos_y- 0.5*(this->size%2);//same as above 
 	}
 
-
+	glEnable(GL_COLOR_MATERIAL);
 	glPushMatrix();
 		glColor3f(1,0,0);
-		glTranslatef(trans_x, trans_y, 0);
-		glScalef(scale_x, scale_y, 1);
+		glTranslatef(trans_x, trans_y, 0.25);
+		glScalef(scale_x, scale_y, 0.5);
 		glutSolidCube(1);
 	glPopMatrix();
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 void ship::draw_at(int x, int y){//used for drawing ship at specific coords, for placing
@@ -58,21 +59,22 @@ void ship::draw_at(int x, int y){//used for drawing ship at specific coords, for
 
 	if(::orientation == HORIZ){
 		scale_x = this->size;
-		trans_y = y- 0.5;//*(this->size%2);
+		trans_y = y- 0.5;
 		scale_y = 1;
 		trans_x = x - 0.5*(1-this->size%2);
 	}
 	else{
 		scale_y = this->size;
-		trans_x = x;// - 0.5*(1-this->size%2);
+		trans_x = x;
 		scale_x = 1;
 		trans_y = y- 0.5*(this->size%2);
 	}
-
+	glEnable(GL_COLOR_MATERIAL);
 	glPushMatrix();
 		glColor3f(0,1,0);
-		glTranslatef(trans_x, trans_y, 0);
-		glScalef(scale_x, scale_y, 1);
+		glTranslatef(trans_x, trans_y, 0.25);
+		glScalef(scale_x, scale_y, 0.5);
 		glutSolidCube(1);
 	glPopMatrix();
+	glDisable(GL_COLOR_MATERIAL);
 }
