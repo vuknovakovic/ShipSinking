@@ -13,7 +13,7 @@ extern bool orientation;
 
 //TODO pozicija broda nije ovo sto se posalje, pogledati dole u draw_at kako se menja i tako je modifikovati i ovde
 ship::ship(int size, int pos_x, int pos_y, bool orientation):
-	size{size}, num_of_hit_fields{0}, pos_x{pos_x}, pos_y{pos_y}, alive{true}, orientation{orientation}
+	size{size}, num_of_hit_fields{0}, pos_x{pos_x}, pos_y{pos_y}, orientation{orientation}, alive{true}
 {
 	create_ship_fields();
 	hit_fields.push_back(fields[0]);
@@ -36,9 +36,6 @@ void ship::create_ship_fields(){
 int ship::get_size(void){
 	return this->size;
 }
-bool ship::get_status(void){
-	return this->alive;
-}
 void ship::update_status(){
 	if(num_of_hit_fields == size){
 		alive=false;
@@ -50,7 +47,7 @@ void ship::draw(){
 	glColor3f(1,0,0);
 	this->draw_at(this->pos_x, this->pos_y,this->orientation,false);
 	//drawing hit fields
-	for(auto cell :  hit_fields){
+	for(auto cell : hit_fields){
 		float x, y;
 		std::tie(x,y) = cell;
 		y-=0.5;
@@ -72,7 +69,7 @@ void ship::draw_at(	int x, int y,
 
 	if(orientation == HORIZ){
 		scale_x = this->size;
-		trans_x = x + 0.5*(1-this->size%2) + 1*(size>2);
+		trans_x = x + 0.5*(1-this->size%2) + 1*(this->size>2);
 		//NOTE
 		//+0.5*(1-this->size) + 1*(size>2) because of the way OpenGL draws cube.
 		//Since it draws it symetrical to given point, this part is necessary so that cube would fit nicely in cell, 
@@ -86,7 +83,7 @@ void ship::draw_at(	int x, int y,
 		trans_x = x;
 			
 		scale_y = this->size;
-		trans_y = y - 0.5*(this->size%2) + 1*(size>2);
+		trans_y = y - 0.5*(this->size%2) + 1*(this->size>2);
 		//same NOTE as above, just for y axis
 	}
 	glEnable(GL_COLOR_MATERIAL);
@@ -99,4 +96,19 @@ void ship::draw_at(	int x, int y,
 		glutSolidCube(1);
 	glPopMatrix();
 	glDisable(GL_COLOR_MATERIAL);
+}
+
+bool ship::hit(int x, int y){
+
+	for(auto cell : fields){
+		int tmp_x, tmp_y;
+		std::tie(tmp_x, tmp_y) = cell;
+		if(x == tmp_x && y == tmp_y){
+			hit_fields.push_back(cell);
+			num_of_hit_fields++;
+			update_status();
+			return true;
+		}
+	}
+	return false;
 }
