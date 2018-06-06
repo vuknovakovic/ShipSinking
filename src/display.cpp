@@ -11,10 +11,10 @@
 //global variables
 bool animation = true;
 int width, height;
-int size_to_draw = 1;
+int size_to_draw = 2;
 bool orientation;//orientation of next ship(vertical or horizontal)
 
-float water_paramater = 0;//water animation pareametar
+float water_paramater = 0;//water animation parameter
 
 float theta{0} , fi{0};//angles for camera rotation
 
@@ -316,12 +316,11 @@ void passive_motion(int x, int y){
 		if(x_world < 0){ //left field
 			float x_world_tmp = x_world + 0.5;//because filed is moved 0.5 to the left
 
-			int hit_cell_x = x_world_tmp;
-			int hit_cell_y = y_world;
+			int hit_cell_x = std::floor(x_world_tmp);
+			int hit_cell_y = std::ceil(y_world);
 
-
-			draw_at_x = hit_cell_x-1;
-			draw_at_y = hit_cell_y+1;
+			draw_at_x = hit_cell_x;
+			draw_at_y = hit_cell_y;
 
 			glutPostRedisplay();
 
@@ -329,18 +328,17 @@ void passive_motion(int x, int y){
 		else { //right_field
 			float x_world_tmp = x_world - 0.5;//because filed is moved 0.5 to the right
 
-			int hit_cell_x = x_world_tmp;
-			int hit_cell_y = y_world;
+			int hit_cell_x = std::ceil(x_world_tmp);
+			int hit_cell_y = std::ceil(y_world);
 
-			draw_at_x = hit_cell_x+1;
-			draw_at_y = hit_cell_y+1;
+			draw_at_x = hit_cell_x;
+			draw_at_y = hit_cell_y;
 
 
 			glutPostRedisplay();
 
 		}
 	}
-	//std::cout << x_world << " " << y_world << " " <<std::endl;
 }
 
 //mouse function trigerred on CLICK, places ship
@@ -355,27 +353,12 @@ void mouse_function(int button, int state, int x, int y){
 			std::cout << "Out of bounds!!" << std::endl;
 		}
 		else{
-			if(x_world < 0){ //left field
-				float x_world_tmp = x_world + 0.5;
-
-				int hit_cell_x = x_world_tmp;
-				int hit_cell_y = y_world;
-
-				std::cout << hit_cell_x << " " << hit_cell_y << " " <<std::endl;
-			}
-			else { //right_field
-				float x_world_tmp = x_world - 0.5;
-
-				int hit_cell_x = x_world_tmp;
-				int hit_cell_y = y_world;
-
-				std::cout << hit_cell_x << " " << hit_cell_y << " " <<std::endl;
-
-			}
+			//draw_at_x and draw_at_y are set in passive_motion function
 			ships.push_back(ship(size_to_draw, draw_at_x, draw_at_y, orientation));//add ship to the vecotr of ships
 			glutPostRedisplay();
 		}
 		std::cout << x_world << " " << y_world << " " <<std::endl;
+		std::cout << draw_at_x << " " << draw_at_y << " " <<std::endl;
 	}
 
 }
