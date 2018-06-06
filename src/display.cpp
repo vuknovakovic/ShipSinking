@@ -127,17 +127,16 @@ void on_display(){
 
 	draw_debug_coords();
 
-	//drawing left field
+	//drawing field
 	draw_left_field();
-
-	//drawing right field
 	draw_right_field();
+
 	glDisable(GL_LIGHTING);
-	if(draw_at_x != -100 || draw_at_y != -100){
-		test.draw_at(draw_at_x, draw_at_y);//draw ship that is going to be placed
-	}
+
+	test.draw_at(draw_at_x, draw_at_y);//draw ship that is going to be placed
 
 	draw_ships();//draw placed ships
+
 	glEnable(GL_LIGHTING);
 
 	glutSwapBuffers();
@@ -161,20 +160,19 @@ void set_vertex_and_normal(float u, float v){
     float diff_u, diff_v;
 	float x = u, y =v;//tmp values
 	//multiplication changes wave efect, this looks nice for now
-	u=4*u;
-	v=4*v;
+	u = 4 * u;
+	v = 4 * v;
 
 	//calculating aprox. diferential of function
-    diff_u = (function(u+ 1,v) - function(u- 1,v));
-    diff_v = (function(u,v + 1) - function(u,v - 1));
+    diff_u = (function(u + 1, v) - function(u - 1, v));
+    diff_v = (function(u, v + 1) - function(u, v - 1));
 
 	//set normal
-
     glNormal3f(sin(-diff_u), std::sin(-diff_v),1);
 
 	// set blue color and set vertex
 	glColor3f(0,0,1);
-    glVertex3f(x,y, 0);
+    glVertex3f(x, y, 0);
 }
 
 void set_light(){
