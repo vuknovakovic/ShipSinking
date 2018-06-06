@@ -11,7 +11,7 @@
 //global variables
 bool animation = true;
 int width, height;
-int size_to_draw = 2;
+int size_to_draw = 3;
 bool orientation;//orientation of next ship(vertical or horizontal)
 
 float water_paramater = 0;//water animation parameter
@@ -28,7 +28,7 @@ int main(int argc, char** argv){
 
     //GLUT init
 	init(argc, argv);
-	orientation = VERT;
+	orientation = HORIZ;
 
     glutMainLoop();
 
@@ -314,26 +314,19 @@ void passive_motion(int x, int y){
 	}
 	else{
 		if(x_world < 0){ //left field
-			float x_world_tmp = x_world + 0.5;//because filed is moved 0.5 to the left
+			float x_world_tmp = x_world + 0.5;//because field is moved 0.5 to the left
 
-			int hit_cell_x = std::floor(x_world_tmp);
-			int hit_cell_y = std::ceil(y_world);
-
-			draw_at_x = hit_cell_x;
-			draw_at_y = hit_cell_y;
+			draw_at_x = std::floor(x_world_tmp);
+			draw_at_y = std::ceil(y_world);
 
 			glutPostRedisplay();
 
 		}
 		else { //right_field
-			float x_world_tmp = x_world - 0.5;//because filed is moved 0.5 to the right
+			float x_world_tmp = x_world - 0.5;//because field is moved 0.5 to the right
 
-			int hit_cell_x = std::ceil(x_world_tmp);
-			int hit_cell_y = std::ceil(y_world);
-
-			draw_at_x = hit_cell_x;
-			draw_at_y = hit_cell_y;
-
+			draw_at_x = std::ceil(x_world_tmp);
+			draw_at_y = std::ceil(y_world);
 
 			glutPostRedisplay();
 
