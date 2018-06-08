@@ -11,13 +11,10 @@
 extern bool orientation;
 
 
-//TODO pozicija broda nije ovo sto se posalje, pogledati dole u draw_at kako se menja i tako je modifikovati i ovde
 ship::ship(int size, int pos_x, int pos_y, bool orientation):
 	size{size}, num_of_hit_fields{0}, pos_x{pos_x}, pos_y{pos_y}, orientation{orientation}, alive{true}
 {
 	create_ship_fields();
-	hit_fields.push_back(fields[0]);
-	hit_fields.push_back(fields[1]);
 }
 
 void ship::create_ship_fields(){
@@ -31,6 +28,14 @@ void ship::create_ship_fields(){
 	}
 	
 
+}
+bool ship::has(int x,int y){
+	int tmp_x, tmp_y;
+	return std::any_of(fields.begin(), fields.end(),
+			[&](std::tuple<int,int> tmp){
+				std::tie(tmp_x, tmp_y) = tmp;
+				return tmp_x == x && tmp_y == y;
+			});
 }
 
 int ship::get_size(void){

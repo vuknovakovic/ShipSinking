@@ -30,6 +30,7 @@ public:
 	int get_size(void);
 	void update_status();
 	void draw();
+	bool has(int,int);
 	void draw_at(int x, int y, bool orientation = ::orientation, bool set_color = true);
 	bool hit(int, int);
 };

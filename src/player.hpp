@@ -14,5 +14,6 @@ private:
 public:
 	bool aim_at(int x, int y, player);
 	void aimed_at(int x, int y);
+	void add_ship(const ship& s);
 };
 #endif
