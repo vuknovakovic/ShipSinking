@@ -7,7 +7,7 @@
 extern bool orientation;
 
 namespace phase2{
-	std::string message_to_display;
+	extern std::string message_to_display;
 
 	void on_keyboard(unsigned char c, int x, int y);
 	void mouse_function(int button, int state, int x, int y);

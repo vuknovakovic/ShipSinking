@@ -12,6 +12,7 @@
 extern player player1, player2;
 extern int width, height;
 extern int water_paramater;
+extern std::string s;
 
 namespace game{
 

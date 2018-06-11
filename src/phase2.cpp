@@ -15,6 +15,8 @@ std::vector<std::tuple<int,int>> aimed_cells;
 
 
 namespace phase2{
+	std::string message_to_display = "";
+
 	void on_keyboard(unsigned char c, int x, int y){
 		(void)x, (void)y;
 		switch(c){
@@ -32,25 +34,32 @@ namespace phase2{
 			return;
 
 		if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-			aimed_cells.push_back(std::make_tuple(hit_at_x,hit_at_y));
 			if(player_on_move == 1){
 				if(hit_at_x < 0)
 					return;
+				phase2::message_to_display = "PLAYER 1 AIMS";
+				aimed_cells.push_back(std::make_tuple(hit_at_x,hit_at_y));
 				hit = player1.aim_at(hit_at_x, hit_at_y, player2);
 				std::cout << "prvi gadja i " << hit << std::endl;
-				if(!hit)	
+				if(!hit){
 					player_on_move = 2;
+					phase2::message_to_display = "PLAYER 2 AIMS";
+				}
 
 			}
 
 			else if(player_on_move == 2){
 				if(hit_at_x > 0)
 					return;
+				phase2::message_to_display = "PLAYER 2 AIMS";
+				aimed_cells.push_back(std::make_tuple(hit_at_x,hit_at_y));
 				hit = player2.aim_at(hit_at_x, hit_at_y, player1);
 				std::cout << "drugi gadja i " << hit << std::endl;
 
-				if(!hit)	
+				if(!hit){
 					player_on_move = 1;
+					phase2::message_to_display = "PLAYER 1 AIMS";
+				}
 			}
 
 
@@ -163,7 +172,9 @@ namespace phase2{
 		game::draw_right_field();
 	
 		draw_aimed_cells();	
+		game::display_text(phase2::message_to_display);
 
+		//TODO ovo ne radi jos uvek
 		player1.draw_hit_ships();
 		player2.draw_hit_ships();
 

@@ -181,6 +181,7 @@ namespace game{
 	}
 
 	void display_text(std::string s){
+		glDisable(GL_LIGHTING);
 		glPushMatrix();
 			glColor3f(1,1,1);
 
@@ -196,6 +197,7 @@ namespace game{
 			}
 
 		glPopMatrix();
+		glEnable(GL_LIGHTING);
 	
 	}
 }

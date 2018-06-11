@@ -19,6 +19,7 @@ namespace phase1{
 	int num_of_drawn_ships=0;
 
 	bool orientation = HORIZ;
+	std::string s = "IGRAC 1 POSTAVLJA BRODOVE";
 
 	std::vector<ship> ships;//used for viewing of placed ships
 
@@ -88,6 +89,8 @@ namespace phase1{
 
 		//draw placed ships
 		draw_ships();
+		game::display_text(s);
+
 
 		glEnable(GL_LIGHTING);
 
@@ -196,6 +199,7 @@ namespace phase1{
 					if(size_to_draw == 5){
 						size_to_draw = 1;
 						player_to_set = 2;
+						s = "IGRAC 2 POSTAVLJA BRODOVE";
 						ships.clear();//empty vector of ships to be displayed
 					}
 				}
@@ -215,8 +219,8 @@ namespace phase1{
 						glutMouseFunc(phase2::mouse_function);
 						glutPassiveMotionFunc(phase2::passive_motion);
 						glutTimerFunc(TIMER_INTERVAL, phase2::on_timer, WATER_ID);
+						// phase2::message_to_display="PLAYER 1 AIMS";
 
-						//TODO rebind functions to phase2
 						std::cout <<"kraj prve faze"<<std::endl;
 						ships.clear();
 					}

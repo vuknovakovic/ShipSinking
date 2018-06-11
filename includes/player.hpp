@@ -12,7 +12,7 @@ private:
 	std::vector <std::tuple<int,int>> aimed_cells;
 	
 public:
-	bool aim_at(int x, int y, player);
+	bool aim_at(int x, int y, player&);
 	bool aimed_at(int x, int y);
 	void add_ship(const ship& s);
 	void draw_aimed_fields();
