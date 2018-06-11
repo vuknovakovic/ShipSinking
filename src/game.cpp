@@ -1,9 +1,10 @@
 #include <vector>
-#include <GL/gl.h>
 #include <string>
 #include <iostream>
-#include <numeric>
+#include <tuple>
 #include <cmath>
+
+#include <GL/gl.h>
 #include <GL/glut.h>
 
 #include "../includes/game.hpp"
@@ -13,14 +14,12 @@
 
 int width = 600, height = 1000;
 int water_paramater = 0;
-int animation_param = 0;
+double animation_param = 0;
 player player1, player2;
 
 namespace game{
-
 	void init(){
 
-		// glutInit(&argc, argv);
     	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     	glEnable(GL_DEPTH_TEST);
     	glEnable(GL_NORMALIZE);
@@ -30,7 +29,7 @@ namespace game{
 		height=1000;
     	glutInitWindowSize(height, width);
     	glutInitWindowPosition(100, 100);
-    	glutCreateWindow("potapanje_brodica");
+    	glutCreateWindow("ship sinking game");
 
     	//GLUT callback functions binding
     	glutKeyboardFunc(phase1::on_keyboard);
@@ -186,13 +185,7 @@ namespace game{
 		glPushMatrix();
 			glColor3f(1,1,1);
 
-			//TODO calculating witdh of string that is going to be drawn
-			// float width_of_string = 0;
-			// for(auto c: s)
-				// width_of_string += glutBitmapWidth(GLUT_BITMAP_TIMES_ROMAN_24, c);
-			// std::cout <<width_of_string<<std::endl;
-			// width_of_string/=22;//approx. 22 pixels is wide one field in world coordinates
-			glRasterPos3f(-2.5, 10.5, 0);//-width_of_string so that string would be centered
+			glRasterPos3f(-2.5, 10.5, 0);
 			for(auto c: s){
 				glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, c);
 			}
@@ -208,9 +201,10 @@ namespace game{
 			glutPostRedisplay();
 			glutTimerFunc(TIMER_INTERVAL, on_timer, WATER_ID);
 		}
+
 		if(id == ANIMATION_ID){
-			animation_param+=1;
-			if(animation_param <= 100){
+			animation_param+=0.02;
+			if(animation_param <= 1){
 				glutTimerFunc(TIMER_INTERVAL, on_timer, ANIMATION_ID);
 			}
 			else{

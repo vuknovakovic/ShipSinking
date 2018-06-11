@@ -13,10 +13,10 @@
 extern player player1, player2;
 extern int width, height;
 extern int water_paramater;
+extern double animation_param;
 extern std::string s;
 
 namespace game{
-
 	void init();		
 	void on_reshape(int width, int height);
 

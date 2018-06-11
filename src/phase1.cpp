@@ -79,7 +79,7 @@ namespace phase1{
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		game::draw_debug_coords();
+		// game::draw_debug_coords();
 
 		//drawing field
 		game::draw_left_field();
@@ -209,7 +209,7 @@ namespace phase1{
 				player2.add_ship(ship(size_to_draw, draw_at_x, draw_at_y, orientation));
 				ships.push_back(ship(size_to_draw, draw_at_x, draw_at_y, orientation));
 
-				if(num_of_drawn_ships + size_to_draw == 4){//TODO check
+				if(num_of_drawn_ships + size_to_draw == 4){
 					num_of_drawn_ships = -1;
 					size_to_draw++;
 
@@ -218,10 +218,8 @@ namespace phase1{
 						glutDisplayFunc(phase2::on_display);
 						glutMouseFunc(phase2::mouse_function);
 						glutPassiveMotionFunc(phase2::passive_motion);
-						// glutTimerFunc(TIMER_INTERVAL, phase2::on_timer, WATER_ID);
 						phase2::message_to_display="PLAYER 1 AIMS";
 
-						// std::cout <<"kraj prve faze"<<std::endl;
 						ships.clear();
 					}
 				}
