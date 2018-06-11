@@ -1,6 +1,10 @@
 # RG060-potapanje-brodica
 # Student: Vuk Novakovic
 
+## Dependencies:
+    OpenGL/GLUT
+    c++ 11 
+
 
 ## Installing:
 
