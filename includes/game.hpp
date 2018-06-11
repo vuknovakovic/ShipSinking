@@ -2,6 +2,7 @@
 #define __GAME_HPP__
 
 #include <vector>
+
 #include "ship.hpp"
 #include "player.hpp"
 
@@ -22,6 +23,8 @@ namespace game{
 	void draw_right_field();
 	bool inside_field(float, float);
 	void draw_debug_coords();
+
+	void display_text(std::string s);
 }
 
 #endif

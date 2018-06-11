@@ -1,5 +1,8 @@
 #include <vector>
 #include <GL/gl.h>
+#include <string>
+#include <iostream>
+#include <numeric>
 #include <cmath>
 #include <GL/glut.h>
 
@@ -175,6 +178,25 @@ namespace game{
 		gluPerspective(60, (float)width/height, 1, 40);
 	
 		glMatrixMode(GL_MODELVIEW);
+	}
+
+	void display_text(std::string s){
+		glPushMatrix();
+			glColor3f(1,1,1);
+
+			//TODO calculating witdh of string that is going to be drawn
+			// float width_of_string = 0;
+			// for(auto c: s)
+				// width_of_string += glutBitmapWidth(GLUT_BITMAP_TIMES_ROMAN_24, c);
+			// std::cout <<width_of_string<<std::endl;
+			// width_of_string/=22;//approx. 22 pixels is wide one field in world coordinates
+			glRasterPos3f(-2.5, 10.5, 0);//-width_of_string so that string would be centered
+			for(auto c: s){
+				glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, c);
+			}
+
+		glPopMatrix();
+	
 	}
 }
 
