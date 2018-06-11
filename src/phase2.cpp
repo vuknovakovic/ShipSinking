@@ -169,6 +169,8 @@ namespace phase2{
 		draw_aimed_cells();	
 		game::display_text(phase2::message_to_display);
 
+		// glDisable(GL_LIGHTING);
+
 		player1.draw_hit_ships();
 		player2.draw_hit_ships();
 

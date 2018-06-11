@@ -19,7 +19,7 @@ namespace phase1{
 	int num_of_drawn_ships=0;
 
 	bool orientation = HORIZ;
-	std::string s = "IGRAC 1 POSTAVLJA BRODOVE";
+	std::string s = "PLAYER 1 PLACING SHIPS";
 
 	std::vector<ship> ships;//used for viewing of placed ships
 
@@ -199,7 +199,7 @@ namespace phase1{
 					if(size_to_draw == 5){
 						size_to_draw = 1;
 						player_to_set = 2;
-						s = "IGRAC 2 POSTAVLJA BRODOVE";
+						s = "PLAYER 2 PLACING SHIPS";
 						ships.clear();//empty vector of ships to be displayed
 					}
 				}
