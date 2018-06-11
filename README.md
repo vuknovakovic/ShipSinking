@@ -10,7 +10,7 @@
 
 ``` 
 git clone https://github.com/MATF-RG17/RG060-potapanje-brodica.git
-cd RG060-potapanje-brodica
+cd RG060-potapanje-brodica/src
 make (make -j for faster compilation)
 ./ships
 ```
