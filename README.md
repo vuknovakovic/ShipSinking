@@ -50,3 +50,8 @@ Gray field represents aimed cell, but missed (no ship was there).
 Sphere represents hit part of a ship.
 
 When ship is destroyed (all of its cells are hit) it is shown in red.
+
+
+# Future work:
+    Add bullet animation
+    Add bullet and ship models
