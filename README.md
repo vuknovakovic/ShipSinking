@@ -31,6 +31,8 @@ make (make -j for faster compilation)
     
     
 ### Phase 2: Aiming
+    Aiming is done using mouse and mouse click.
+    
     If player hits enemy ship, he gets to aim again
     
     player 1 aims first(he aims on right field since there are ships of player 2)
@@ -43,4 +45,4 @@ Gray field represents aimed cell, but missed (no ship was there).
 
 Sphere represents hit part of a ship.
 
-When ship is destroyed (all of its fields are hit) it is shown in red.
+When ship is destroyed (all of its cells are hit) it is shown in red.
