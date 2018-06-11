@@ -225,7 +225,7 @@ namespace phase1{
 			num_of_drawn_ships++;
 
 			//reset these so that recheck of coordinates and size is forced in passive motion
-			//otherwise things like placing ship on top of last placed ship etc. is possible if mouse is not moved
+			//otherwise things like placing ship on top of last placed ship etc. are possible if mouse is not moved
 			draw_at_x = draw_at_y = -100;
 
 		}
