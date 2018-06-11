@@ -37,7 +37,7 @@ bool player::aim_at(int x, int y, player &opponent){
 	if(!can_hit(x,y,aimed_cells)){
 		//TODO notify to aim again
 		phase2::message_to_display = "CELL ALLREADY AIMED, AIM AGAIN";
-		std::cout << "\nne mogu da gadjam" << std::endl;
+		// std::cout << "\nne mogu da gadjam" << std::endl;
 		return true;
 	}
 	aimed_cells.push_back(std::make_tuple(x,y));
@@ -66,7 +66,11 @@ bool player::aimed_at(int x, int y){
 			if(!ship.alive){
 				// TODO smisliti kako da obavestim protivnika da je unistio brod
 				phase2::message_to_display = "SHIP DESTROYED";
-				std:: cout << " i pogodjen sam" << std::endl;
+				num_of_lost_ships++;
+				if(num_of_lost_ships == 10){
+					phase2::message_to_display = "GAME OVER";
+				}
+				// std:: cout << " i pogodjen sam" << std::endl;
 			}
 			return true;
 		}

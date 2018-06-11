@@ -37,10 +37,11 @@ namespace phase2{
 			if(player_on_move == 1){
 				if(hit_at_x < 0)
 					return;
+				animation = !animation;
+				glutTimerFunc(TIMER_INTERVAL, game::on_timer, ANIMATION_ID);
 				phase2::message_to_display = "PLAYER 1 AIMS";
 				aimed_cells.push_back(std::make_tuple(hit_at_x,hit_at_y));
 				hit = player1.aim_at(hit_at_x, hit_at_y, player2);
-				std::cout << "prvi gadja i " << hit << std::endl;
 				if(!hit){
 					player_on_move = 2;
 					phase2::message_to_display = "PLAYER 2 AIMS";
@@ -51,10 +52,11 @@ namespace phase2{
 			else if(player_on_move == 2){
 				if(hit_at_x > 0)
 					return;
+				animation = !animation;
+				glutTimerFunc(TIMER_INTERVAL, game::on_timer, ANIMATION_ID);
 				phase2::message_to_display = "PLAYER 2 AIMS";
 				aimed_cells.push_back(std::make_tuple(hit_at_x,hit_at_y));
 				hit = player2.aim_at(hit_at_x, hit_at_y, player1);
-				std::cout << "drugi gadja i " << hit << std::endl;
 
 				if(!hit){
 					player_on_move = 1;
@@ -98,14 +100,6 @@ namespace phase2{
 		glutPostRedisplay();
 	}
 	
-	void on_timer(int id){
-		if(id == WATER_ID){
-			water_paramater+=10;
-			glutPostRedisplay();
-	        glutTimerFunc(TIMER_INTERVAL, on_timer, WATER_ID);
-		}
-	
-	}
 	
 	void draw_aimed_cells(){
 		// std::cout << "crtam ciljana polja kojih ima" << aimed_cells.size() << std::endl;
@@ -114,7 +108,8 @@ namespace phase2{
 			std::tie(x,y) = cell;
 				// std::cout << y << " " << x << std::endl;
 				glPushMatrix();
-					glTranslatef(x,y-0.5,0);
+					glTranslatef(x,y-0.5,0.05);
+					glScalef(1,1,0.1);
 					glutSolidCube(1);
 				glPopMatrix();
 				// glBegin(GL_POLYGON);
@@ -174,7 +169,6 @@ namespace phase2{
 		draw_aimed_cells();	
 		game::display_text(phase2::message_to_display);
 
-		//TODO ovo ne radi jos uvek
 		player1.draw_hit_ships();
 		player2.draw_hit_ships();
 

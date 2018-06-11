@@ -13,6 +13,7 @@
 
 int width = 600, height = 1000;
 int water_paramater = 0;
+int animation_param = 0;
 player player1, player2;
 
 namespace game{
@@ -37,7 +38,7 @@ namespace game{
     	glutDisplayFunc(phase1::on_display);
 		glutMouseFunc(phase1::mouse_function);
 		glutPassiveMotionFunc(phase1::passive_motion);
-		glutTimerFunc(TIMER_INTERVAL, phase1::on_timer, WATER_ID);
+		glutTimerFunc(TIMER_INTERVAL, game::on_timer, WATER_ID);
 
 		//OpenGL init
 		glLoadIdentity();
@@ -199,6 +200,25 @@ namespace game{
 		glPopMatrix();
 		glEnable(GL_LIGHTING);
 	
+	}
+
+	void on_timer(int id){
+		if(id == WATER_ID){
+			water_paramater+=10;
+			glutPostRedisplay();
+			glutTimerFunc(TIMER_INTERVAL, on_timer, WATER_ID);
+		}
+		if(id == ANIMATION_ID){
+			animation_param+=1;
+			if(animation_param <= 100){
+				glutTimerFunc(TIMER_INTERVAL, on_timer, ANIMATION_ID);
+			}
+			else{
+				animation = !animation;
+				animation_param = 0;
+			}
+		}
+
 	}
 }
 

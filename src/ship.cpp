@@ -112,10 +112,10 @@ bool ship::hit(int x, int y){
 		if(x == tmp_x && y == tmp_y){
 			hit_fields.push_back(cell);
 			it = fields.erase(it);
-			std::cout << "izbrisao sam " << x << " " << y<< " i sada fields ima " << fields.size() << " i sada ship has(x,y) je " << has(x,y) << std::endl;
+			// std::cout << "izbrisao sam " << x << " " << y<< " i sada fields ima " << fields.size() << " i sada ship has(x,y) je " << has(x,y) << std::endl;
 			for(auto x : this->fields){		
 				std::tie(tmp_x, tmp_y) = x;
-				std:: cout << tmp_x << " " << tmp_y << std::endl; 
+				// std:: cout << tmp_x << " " << tmp_y << std::endl;
 			}
 			num_of_hit_fields++;
 			update_status();
@@ -136,7 +136,8 @@ void ship::draw_hit_fields(){
 	// std:: cout << "hit fields ima " << hit_fields.size() << std::endl;
 	
 	if(!alive){
-		draw_at(pos_x, pos_y, orientation, true);
+		glColor3f(1,0,0);
+		draw_at(pos_x, pos_y, orientation, false);
 		return;
 	}
 	

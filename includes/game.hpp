@@ -8,6 +8,7 @@
 
 #define TIMER_INTERVAL 10
 #define WATER_ID 1
+#define ANIMATION_ID 2
 
 extern player player1, player2;
 extern int width, height;
@@ -24,6 +25,8 @@ namespace game{
 	void draw_right_field();
 	bool inside_field(float, float);
 	void draw_debug_coords();
+
+	void on_timer(int val);
 
 	void display_text(std::string s);
 }

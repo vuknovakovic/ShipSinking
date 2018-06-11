@@ -63,7 +63,7 @@ namespace phase1{
 		for(auto &ship:ships){
 			ship.draw();
 		}
-	
+
 	}
 
 	void on_display(){
@@ -71,7 +71,7 @@ namespace phase1{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-			
+
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(-11,11,-1,11,0,20);
@@ -95,7 +95,7 @@ namespace phase1{
 		glEnable(GL_LIGHTING);
 
 		glutSwapBuffers();
-	
+
 	}
 
 	bool can_fit(int x, int y){
@@ -131,7 +131,7 @@ namespace phase1{
 					return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -139,7 +139,7 @@ namespace phase1{
 		//screen to world coords
 		float x_world = x*((11+11)/(float)width) - 11;
 		float y_world = 11 - y*((11+1)/(float)height);
-	
+
 		if(!game::inside_field(x_world, y_world)){
 			// std::cout << "Out of bounds!!" << std::endl;
 			// set to -100 so that ship would not be displayed
@@ -150,17 +150,17 @@ namespace phase1{
 		else{
 			if(x_world < 0){ //left field
 				float x_world_tmp = x_world + 0.5;//because field is moved 0.5 to the left
-	
+
 				draw_at_x = std::floor(x_world_tmp);
 				draw_at_y = std::ceil(y_world);
-	
+
 			}
 			else { //right_field
 				float x_world_tmp = x_world - 0.5;//because field is moved 0.5 to the right
-	
+
 				draw_at_x = std::ceil(x_world_tmp);
 				draw_at_y = std::ceil(y_world);
-	
+
 			}
 		}
 
@@ -168,7 +168,7 @@ namespace phase1{
 			draw_at_x = draw_at_y = -100;
 		}
 
-		//player1 puts its ships on left field, so he cant have option to put them on right field, similar for player2 
+		//player1 puts its ships on left field, so he cant have option to put them on right field, similar for player2
 		else if(player_to_set == 1 && draw_at_x > 0)
 			draw_at_x = draw_at_y = -100;
 		else if(player_to_set == 2 && draw_at_x < 0)
@@ -180,14 +180,14 @@ namespace phase1{
 	void mouse_function(int button, int state, int x, int y){
 		(void)x, (void)y;
 
-		//draw_at_x and draw_at_y are set in passive_motion	
+		//draw_at_x and draw_at_y are set in passive_motion
 		if(draw_at_x == -100 && draw_at_y == -100)
 			return;
 
 		if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
 			if(player_to_set == 1){
 				player1.add_ship(ship(size_to_draw, draw_at_x, draw_at_y, orientation));
-				ships.push_back(ship(size_to_draw, draw_at_x, draw_at_y, orientation));	
+				ships.push_back(ship(size_to_draw, draw_at_x, draw_at_y, orientation));
 
 				//since we have to put 4 ships of size 1, 3 ships of size 2, 2 ships of size 3 and 1 ship of size 4,
 				//this is valid because num_of_ships starts at 0
@@ -207,7 +207,7 @@ namespace phase1{
 
 			else if(player_to_set == 2){
 				player2.add_ship(ship(size_to_draw, draw_at_x, draw_at_y, orientation));
-				ships.push_back(ship(size_to_draw, draw_at_x, draw_at_y, orientation));	
+				ships.push_back(ship(size_to_draw, draw_at_x, draw_at_y, orientation));
 
 				if(num_of_drawn_ships + size_to_draw == 4){//TODO check
 					num_of_drawn_ships = -1;
@@ -215,13 +215,13 @@ namespace phase1{
 
 					if(size_to_draw == 5){
 						glutKeyboardFunc(phase2::on_keyboard);
-    					glutDisplayFunc(phase2::on_display);
+						glutDisplayFunc(phase2::on_display);
 						glutMouseFunc(phase2::mouse_function);
 						glutPassiveMotionFunc(phase2::passive_motion);
-						glutTimerFunc(TIMER_INTERVAL, phase2::on_timer, WATER_ID);
-						// phase2::message_to_display="PLAYER 1 AIMS";
+						// glutTimerFunc(TIMER_INTERVAL, phase2::on_timer, WATER_ID);
+						phase2::message_to_display="PLAYER 1 AIMS";
 
-						std::cout <<"kraj prve faze"<<std::endl;
+						// std::cout <<"kraj prve faze"<<std::endl;
 						ships.clear();
 					}
 				}
@@ -235,16 +235,8 @@ namespace phase1{
 		}
 			glutPostRedisplay();
 	}
-	
-	
 
-	void on_timer(int id){
-		if(id == WATER_ID){
-			water_paramater+=10;
-			glutPostRedisplay();
-	        glutTimerFunc(TIMER_INTERVAL, on_timer, WATER_ID);
-		}
-	
-	}
+
+
 }
 

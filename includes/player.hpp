@@ -10,6 +10,7 @@ class player{
 private:
 	std::vector <ship> ships;
 	std::vector <std::tuple<int,int>> aimed_cells;
+	int num_of_lost_ships = 0;
 	
 public:
 	bool aim_at(int x, int y, player&);
