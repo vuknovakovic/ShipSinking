@@ -107,18 +107,18 @@ bool ship::hit(int x, int y){
 
 	for(auto it = this->fields.begin(); it != this->fields.end(); ){
 		auto cell = *it;
+
 		int tmp_x, tmp_y;
 		std::tie(tmp_x, tmp_y) = cell;
+
 		if(x == tmp_x && y == tmp_y){
 			hit_fields.push_back(cell);
 			it = fields.erase(it);
-			// std::cout << "izbrisao sam " << x << " " << y<< " i sada fields ima " << fields.size() << " i sada ship has(x,y) je " << has(x,y) << std::endl;
-			for(auto x : this->fields){		
-				std::tie(tmp_x, tmp_y) = x;
-				// std:: cout << tmp_x << " " << tmp_y << std::endl;
-			}
+
 			num_of_hit_fields++;
+
 			update_status();
+
 			return true;
 		}
 		else ++it;
@@ -129,11 +129,7 @@ bool ship::hit(int x, int y){
 
 void ship::draw_hit_fields(){
 
-	// this->draw_at(this->pos_x, this->pos_y,this->orientation,false);
 	//drawing hit fields
-	// std::cout << "pozvana fja za unistena polja, iscrtace " << hit_fields.size() << " polja" << std::endl;
-	//
-	// std:: cout << "hit fields ima " << hit_fields.size() << std::endl;
 	
 	if(!alive){
 		glColor3f(1,0,0);
@@ -147,7 +143,7 @@ void ship::draw_hit_fields(){
 		y-=0.5;
 		glDisable(GL_LIGHTING);
 		glPushMatrix();
-			glColor3f(1,1,1);
+			glColor3f(1,1,0);
 			glTranslatef(x,y,0.35);
 			glutSolidSphere(0.7,20,20);
 		glPopMatrix();
