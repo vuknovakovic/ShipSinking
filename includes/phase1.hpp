@@ -1,3 +1,5 @@
+#ifndef __PHASE1__HPP
+#define __PHASE1__HPP
 #include "game.hpp"
 
 extern bool animation;
@@ -11,3 +13,4 @@ namespace phase1{
 	void on_timer(int val);
 	void on_display();
 }
+#endif
