@@ -6,7 +6,7 @@
 #include <GL/glut.h>
 
 #include "display.hpp"
-#include "ship.hpp"
+#include "../includes/ship.hpp"
 
 //global variables
 bool animation = true;
@@ -209,9 +209,9 @@ void draw_field(float x){
 	glPushMatrix();
 
 		glTranslatef(x,0,0);
-		
+
 		set_light();
-		
+
 		glEnable(GL_COLOR_MATERIAL);
 		draw_water();
 

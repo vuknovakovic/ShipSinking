@@ -3,10 +3,10 @@
 #include <cmath>
 #include <GL/glut.h>
 
-#include "game.hpp"
-#include "ship.hpp"
-#include "player.hpp"
-#include "phase1.hpp"
+#include "../includes/game.hpp"
+#include "../includes/ship.hpp"
+#include "../includes/player.hpp"
+#include "../includes/phase1.hpp"
 
 int width = 600, height = 1000;
 int water_paramater = 0;
@@ -30,7 +30,7 @@ namespace game{
 
     	//GLUT callback functions binding
     	glutKeyboardFunc(phase1::on_keyboard);
-    	glutReshapeFunc(phase1::on_reshape);
+    	glutReshapeFunc(on_reshape);
     	glutDisplayFunc(phase1::on_display);
 		glutMouseFunc(phase1::mouse_function);
 		glutPassiveMotionFunc(phase1::passive_motion);
@@ -163,5 +163,18 @@ namespace game{
 	}
 	
 
+	void on_reshape(int w, int h){
+		width=w;
+		height=h;
+	
+	
+		glViewport(0,0,width, height);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+	
+		gluPerspective(60, (float)width/height, 1, 40);
+	
+		glMatrixMode(GL_MODELVIEW);
+	}
 }
 

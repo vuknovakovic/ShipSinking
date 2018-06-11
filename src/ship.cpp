@@ -6,7 +6,7 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 
-#include "ship.hpp"
+#include "../includes/ship.hpp"
 
 extern bool orientation;
 
@@ -105,15 +105,38 @@ void ship::draw_at(	int x, int y,
 
 bool ship::hit(int x, int y){
 
-	for(auto cell : fields){
+	for(auto it = fields.begin(); it != fields.end(); ){
+		auto cell = *it;
 		int tmp_x, tmp_y;
 		std::tie(tmp_x, tmp_y) = cell;
 		if(x == tmp_x && y == tmp_y){
 			hit_fields.push_back(cell);
+			it = fields.erase(it);
+			std::cout << "izbrisao sam " << x << " " << y<< " i sada fields ima " << fields.size() << " i sada ship has(x,y) je " << has(x,y) << std::endl;
 			num_of_hit_fields++;
 			update_status();
 			return true;
 		}
+		else ++it;
 	}
 	return false;
+}
+
+
+void ship::draw_hit_fields(){
+
+	// this->draw_at(this->pos_x, this->pos_y,this->orientation,false);
+	//drawing hit fields
+	// std::cout << "pozvana fja za unistena polja, iscrtace " << hit_fields.size() << " polja" << std::endl;
+	for(auto cell : hit_fields){
+		float x, y;
+		std::tie(x,y) = cell;
+		y-=0.5;
+		glPushMatrix();
+			glColor3f(1,1,1);
+			glTranslatef(x,y,0.35);
+			glutSolidSphere(0.7,20,20);
+		glPopMatrix();
+	}
+
 }

@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "../includes/game.hpp"
 
 #include <GL/glut.h>
 

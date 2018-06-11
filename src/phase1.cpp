@@ -4,9 +4,10 @@
 #include <algorithm>
 #include <GL/glut.h>
 
-#include "phase1.hpp"
-#include "ship.hpp"
-#include "game.hpp"
+#include "../includes/phase1.hpp"
+#include "../includes/phase2.hpp"
+#include "../includes/ship.hpp"
+#include "../includes/game.hpp"
 
 
 namespace phase1{
@@ -40,20 +41,6 @@ namespace phase1{
 				break;
 		return;
 		}
-	}
-
-	void on_reshape(int w, int h){
-		width=w;
-		height=h;
-	
-	
-		glViewport(0,0,width, height);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-	
-		gluPerspective(60, (float)width/height, 1, 40);
-	
-		glMatrixMode(GL_MODELVIEW);
 	}
 
 	void draw_ships(){
@@ -223,10 +210,15 @@ namespace phase1{
 					size_to_draw++;
 
 					if(size_to_draw == 5){
+						glutKeyboardFunc(phase2::on_keyboard);
+    					glutDisplayFunc(phase2::on_display);
+						glutMouseFunc(phase2::mouse_function);
+						glutPassiveMotionFunc(phase2::passive_motion);
+						glutTimerFunc(TIMER_INTERVAL, phase2::on_timer, WATER_ID);
+
 						//TODO rebind functions to phase2
 						std::cout <<"kraj prve faze"<<std::endl;
 						ships.clear();
-						exit(0);
 					}
 				}
 			}

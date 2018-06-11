@@ -1,10 +1,14 @@
 #include <vector>
+#include <iostream>
 #include <tuple>
 #include <algorithm>
 
-#include "ship.hpp"
-#include "player.hpp"
-// #include "display.hpp"
+#include <GL/gl.h>
+#include <GL/glut.h>
+
+#include "../includes/ship.hpp"
+#include "../includes/player.hpp"
+// #include "../includes/display.hpp"
 
 // extern int draw_at_x, draw_at_y;//from display.cpp
 
@@ -28,23 +32,63 @@ void player::add_ship(const ship& s){
 }
 
 
+
 bool player::aim_at(int x, int y, player opponent){
-	if(!can_hit(x,y,aimed_cells))
-		return false;
+	std::cout << "gadjao sam " << x << " " << y;
+	if(!can_hit(x,y,aimed_cells)){
+		//TODO notify to aim again
+		std::cout << " i ne mogu da gadjam" << std::endl;
+		return true;
+	}
 		
-	opponent.aimed_at(x,y);
-	return true;
+	return opponent.aimed_at(x,y);
 
 }
 
-void player::aimed_at(int x, int y){
+bool player::aimed_at(int x, int y){
+	std::cout << "gadjan sam na "<< x << " " << y;
 
+	// return std::any_of(ships.begin(),ships.end(),
+			// [&](ship& s){
+				// bool hit = s.hit(x,y);
+				// if(hit && !s.alive){
+					// TODO notify
+				// }
+				// return hit;
+			// }
+			// );
+
+
+//
 	for(auto ship : ships){
 		if(ship.hit(x,y)){
 			if(!ship.alive){
-				//TODO smisliti kako da obavestim protivnika da je unistio brod
+				// TODO smisliti kako da obavestim protivnika da je unistio brod
+				std:: cout << " i pogodjen sam" << std::endl;
 			}
+			return true;
 		}
 	}
+	return false;
 }
 
+void player::draw_aimed_fields(){
+	float x, y;
+	for(auto &cell : aimed_cells){
+		std::tie(x,y) = cell;
+			glBegin(GL_POLYGON);
+				glColor3f(1,1,1);
+				glVertex3f(x-0.5,y,0);
+				glVertex3f(x+0.5,y,0);
+				glVertex3f(x-0.5,y-1,0);
+				glVertex3f(x+0.5,y-1,0);
+			glEnd();
+	}
+
+}
+
+void player::draw_hit_ships(){
+	for(auto &s : ships){
+		s.draw_hit_fields();
+	}
+}
